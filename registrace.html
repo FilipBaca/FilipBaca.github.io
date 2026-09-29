@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Vytvořte si účet ve Fitku na Hegerce a získejte přístup k rezervacím a speciálním nabídkám.">
+  <title>Vytvořit účet — Fitko na Hegerce</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <main>
+    <section class="section" style="padding-top:var(--sp-3xl);">
+      <div class="container">
+        <div class="form-wrapper fade-in" style="max-width:580px;">
+          <div class="text-center mb-lg">
+            <h1 style="font-size:clamp(1.5rem,3vw,2rem);">Vytvořit účet</h1>
+            <p style="color:var(--clr-secondary); margin-top:var(--sp-sm); font-size:.95rem;">
+              Zaregistrujte se a&nbsp;začněte trénovat.
+            </p>
+          </div>
+
+          <form method="POST" id="registrationForm" data-protect novalidate>
+
+            <!-- Jméno + Příjmení -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="reg-firstname">Jméno</label>
+                <input
+                  type="text"
+                  id="reg-firstname"
+                  name="firstname"
+                  placeholder="Jan"
+                  required
+                  autocomplete="given-name"
+                >
+              </div>
+              <div class="form-group">
+                <label for="reg-lastname">Příjmení</label>
+                <input
+                  type="text"
+                  id="reg-lastname"
+                  name="lastname"
+                  placeholder="Novák"
+                  required
+                  autocomplete="family-name"
+                >
+              </div>
+            </div>
+
+            <!-- Telefon -->
+            <div class="form-group">
+              <label for="reg-phone">Telefonní číslo</label>
+              <input
+                type="tel"
+                id="reg-phone"
+                name="phone"
+                placeholder="+420 123 456 789"
+                required
+                pattern="^\+?[0-9\s]{9,15}$"
+                title="Zadejte platné telefonní číslo (9–15 číslic, volitelně s +)"
+                autocomplete="tel"
+              >
+            </div>
+
+            <!-- E-mail -->
+            <div class="form-group">
+              <label for="reg-email">E-mailová adresa</label>
+              <input
+                type="email"
+                id="reg-email"
+                name="email"
+                placeholder="vas@email.cz"
+                required
+                autocomplete="email"
+              >
+            </div>
+
+            <!-- Datum narození -->
+            <div class="form-group">
+              <label for="reg-birthdate">Datum narození</label>
+              <input
+                type="date"
+                id="reg-birthdate"
+                name="birthdate"
+                required
+                autocomplete="bday"
+              >
+            </div>
+
+            <!-- Heslo -->
+            <div class="form-group">
+              <label for="reg-password">Heslo</label>
+              <div class="password-wrapper">
+                <input
+                  type="password"
+                  id="reg-password"
+                  name="password"
+                  placeholder="Min. 8 znaků"
+                  required
+                  minlength="8"
+                  autocomplete="new-password"
+                >
+                <button type="button" class="password-toggle" aria-label="Zobrazit heslo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Kontrola hesla -->
+            <div class="form-group">
+              <label for="reg-password-confirm">Kontrola hesla</label>
+              <div class="password-wrapper">
+                <input
+                  type="password"
+                  id="reg-password-confirm"
+                  name="password_confirm"
+                  placeholder="Zopakujte heslo"
+                  required
+                  minlength="8"
+                  autocomplete="new-password"
+                >
+                <button type="button" class="password-toggle" aria-label="Zobrazit heslo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div class="form-error" id="passwordMatchError">Hesla se neshodují.</div>
+            </div>
+
+            <button type="submit" class="btn btn--primary" style="width:100%;" data-original-text="Vytvořit účet">
+              Vytvořit účet
+            </button>
+
+            <p class="text-center mt-lg" style="font-size:.9rem; color:var(--clr-secondary);">
+              Už máte účet? <a href="login.html" style="color:var(--clr-primary); font-weight:600;">Přihlaste se</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="components.js"></script>
+  <script>
+    // Registration-specific validation
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('registrationForm');
+      const pw1  = document.getElementById('reg-password');
+      const pw2  = document.getElementById('reg-password-confirm');
+      const err  = document.getElementById('passwordMatchError');
+
+      // Real-time password match check
+      function checkMatch() {
+        if (pw2.value && pw1.value !== pw2.value) {
+          err.style.display = 'block';
+          pw2.setCustomValidity('Hesla se neshodují');
+        } else {
+          err.style.display = 'none';
+          pw2.setCustomValidity('');
+        }
+      }
+
+      pw1.addEventListener('input', checkMatch);
+      pw2.addEventListener('input', checkMatch);
+
+      form.addEventListener('submit', (e) => {
+        // Check password match before allowing submission
+        if (pw1.value !== pw2.value) {
+          e.preventDefault();
+          err.style.display = 'block';
+          pw2.focus();
+          return;
+        }
+
+        // HTML5 built-in validation
+        if (!form.checkValidity()) {
+          e.preventDefault();
+          form.reportValidity();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Přihlaste se ke svému účtu ve Fitku na Hegerce.">
+  <title>Přihlásit se — Fitko na Hegerce</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <main>
+    <section class="section" style="padding-top:var(--sp-3xl);">
+      <div class="container">
+        <div class="form-wrapper fade-in">
+          <div class="text-center mb-lg">
+            <h1 style="font-size:clamp(1.5rem,3vw,2rem);">Přihlášení</h1>
+            <p style="color:var(--clr-secondary); margin-top:var(--sp-sm); font-size:.95rem;">
+              Zadejte své přihlašovací údaje.
+            </p>
+          </div>
+
+          <form method="POST" data-protect novalidate>
+            <div class="form-group">
+              <label for="login-email">E-mailová adresa</label>
+              <input
+                type="email"
+                id="login-email"
+                name="email"
+                placeholder="vas@email.cz"
+                required
+                autocomplete="email"
+              >
+            </div>
+
+            <div class="form-group">
+              <label for="login-password">Heslo</label>
+              <div class="password-wrapper">
+                <input
+                  type="password"
+                  id="login-password"
+                  name="password"
+                  placeholder="Zadejte heslo"
+                  required
+                  minlength="8"
+                  autocomplete="current-password"
+                >
+                <button type="button" class="password-toggle" aria-label="Zobrazit heslo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn--primary" style="width:100%;" data-original-text="Přihlásit se">
+              Přihlásit se
+            </button>
+
+            <p class="text-center mt-lg" style="font-size:.9rem; color:var(--clr-secondary);">
+              Nemáte účet? <a href="registrace.html" style="color:var(--clr-primary); font-weight:600;">Zaregistrujte se</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+  <script src="components.js"></script>
+</body>
+</html>
