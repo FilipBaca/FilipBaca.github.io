@@ -1,0 +1,1921 @@
+================================================================================
+  FITKO NA HEGERCE — KOMPLETNÍ ZDROJOVÝ KÓD
+  Vygenerováno: 30. 9. 2026
+================================================================================
+
+Struktura projektu:
+  ├── style.css           (Design systém & globální styly)
+  ├── components.js       (Sdílená navigace, patička, JS logika)
+  ├── index.html          (Úvodní stránka)
+  ├── o-nas.html          (O nás)
+  ├── vstupy.html         (Vstupy & Ceník)
+  ├── fitko.html          (Fitko — galerie & vybavení)
+  ├── login.html          (Přihlášení)
+  └── registrace.html     (Registrace)
+
+
+================================================================================
+  SOUBOR: style.css
+================================================================================
+
+/* =============================================
+   FITKO NA HEGERCE — Design System & Global Styles
+   ============================================= */
+
+/* ---------- Google Fonts ---------- */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Montserrat:wght@400;500;600;700&display=swap');
+
+/* ---------- Custom Properties ---------- */
+:root {
+  /* Brand palette */
+  --clr-primary: #9B1B22;
+  --clr-primary-hover: #b92028; /* Světlejší červená pro hover na tmavém pozadí */
+  --clr-secondary: #A0A0A0; /* Světlejší šedá pro podnadpisy */
+  --clr-text: #F0F0F0; /* Off-white pro hlavní text, ne čistá bílá */
+  
+  /* Dark mode backgrounds */
+  --clr-bg: #121212; /* Hluboká asfaltová šedá */
+  --clr-bg-alt: #1E1E1E; /* Světlejší vrstva pro karty a sekce */
+  
+  /* Borders and UI */
+  --clr-border: #333333; /* Subtilní tmavé ohraničení */
+  --clr-placeholder-bg: #2A2A2A;
+  --clr-error: #ef4444;
+
+  /* Typography */
+  --ff-heading: 'Montserrat', sans-serif;
+  --ff-body: 'Inter', 'Montserrat', sans-serif;
+
+  /* Spacing scale */
+  --sp-xs: 0.25rem;
+  --sp-sm: 0.5rem;
+  --sp-md: 1rem;
+  --sp-lg: 1.5rem;
+  --sp-xl: 2rem;
+  --sp-2xl: 3rem;
+  --sp-3xl: 4rem;
+
+  /* Layout */
+  --max-width: 1160px;
+  --nav-height: 72px;
+  --radius: 0px;
+
+  /* Transitions */
+  --ease: cubic-bezier(.4, 0, .2, 1);
+  --duration: 250ms;
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  background-color: var(--clr-bg);
+}
+
+body {
+  margin: 0;
+  font-family: var(--ff-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--clr-text);
+  background-color: var(--clr-bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+main {
+  flex: 1;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ---------- Typography ---------- */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--ff-heading);
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--clr-text);
+}
+
+h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+}
+
+h3 {
+  font-size: clamp(1.15rem, 2.5vw, 1.5rem);
+}
+
+h4 {
+  font-size: 1.125rem;
+}
+
+p+p {
+  margin-top: var(--sp-md);
+}
+
+/* ---------- Container ---------- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--sp-lg);
+}
+
+/* ---------- NAVBAR ---------- */
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: var(--nav-height);
+  background: var(--clr-bg);
+  border-bottom: 2px solid var(--clr-border);
+  display: flex;
+  align-items: center;
+}
+
+.navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo placeholder */
+.logo-placeholder {
+  width: 48px;
+  height: 48px;
+  border: 2px dashed var(--clr-secondary);
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.logo-placeholder span {
+  font-family: var(--ff-heading);
+  font-weight: 700;
+  font-size: 0.6rem;
+  color: var(--clr-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-sm);
+}
+
+.nav-links a {
+  font-family: var(--ff-heading);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: var(--sp-sm) var(--sp-md);
+  border-radius: var(--radius);
+  transition: color var(--duration) var(--ease),
+    background var(--duration) var(--ease);
+  white-space: nowrap;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--clr-primary);
+}
+
+/* CTA in navbar */
+.nav-links .nav-cta {
+  background: var(--clr-primary);
+  color: #FFFFFF !important;
+  padding: var(--sp-sm) var(--sp-lg);
+  border-radius: var(--radius);
+  transition: background var(--duration) var(--ease),
+    transform var(--duration) var(--ease);
+}
+
+.nav-links .nav-cta:hover {
+  background: var(--clr-primary-hover);
+  transform: translateY(-1px);
+}
+
+/* Hamburger */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--clr-text);
+  border-radius: 2px;
+  transition: transform var(--duration) var(--ease),
+    opacity var(--duration) var(--ease);
+}
+
+.hamburger.open span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+
+.hamburger.open span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* Mobile nav */
+@media (max-width: 860px) {
+  .hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(320px, 85vw);
+    height: 100vh;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: calc(var(--nav-height) + var(--sp-xl)) var(--sp-xl) var(--sp-xl);
+    background: var(--clr-bg);
+    border-left: 1px solid var(--clr-border);
+    box-shadow: -4px 0 24px rgba(0, 0, 0, .08);
+    transform: translateX(100%);
+    transition: transform var(--duration) var(--ease);
+    gap: var(--sp-xs);
+  }
+
+  .nav-links.open {
+    transform: translateX(0);
+  }
+
+  .nav-links a {
+    width: 100%;
+    font-size: 0.95rem;
+    padding: var(--sp-md);
+    border-radius: var(--radius);
+  }
+
+  .nav-links a:hover {
+    background: var(--clr-bg-alt);
+  }
+
+  .nav-links .nav-cta {
+    margin-top: var(--sp-md);
+    text-align: center;
+    display: block;
+    width: 100%;
+    color: #FFFFFF;
+  }
+}
+
+/* Mobile overlay */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, .35);
+  z-index: 999;
+  opacity: 0;
+  transition: opacity var(--duration) var(--ease);
+}
+
+.nav-overlay.open {
+  display: block;
+  opacity: 1;
+}
+
+/* ---------- HERO SECTION ---------- */
+.hero {
+  padding: var(--sp-3xl) 0;
+  text-align: center;
+}
+
+.hero--home {
+  text-align: left;
+  padding: var(--sp-3xl) 0 var(--sp-2xl);
+  border-bottom: 2px solid var(--clr-border);
+}
+
+.hero h1 {
+  margin-bottom: var(--sp-md);
+}
+
+.hero p {
+  font-size: 1.125rem;
+  color: var(--clr-secondary);
+  max-width: 600px;
+  margin: 0 auto var(--sp-xl);
+}
+
+.hero--home p {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+/* ---------- DISPLAY HEADING ---------- */
+.text-display {
+  font-family: var(--ff-heading);
+  font-size: clamp(3rem, 9vw, 6rem);
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  max-width: 900px;
+}
+
+/* ---------- ACCENT BAR (left border on text) ---------- */
+.accent-bar {
+  border-left: 4px solid var(--clr-primary);
+  padding-left: var(--sp-md);
+  font-size: 1.2rem;
+  max-width: 500px;
+}
+
+/* ---------- BUTTON GROUP ---------- */
+.btn-group {
+  display: flex;
+  gap: var(--sp-md);
+  flex-wrap: wrap;
+}
+
+.btn--lg {
+  font-size: 1rem;
+  padding: 1rem 1.5rem;
+}
+
+/* ---------- FULL WIDTH BUTTON ---------- */
+.btn--full {
+  width: 100%;
+}
+
+/* ---------- SECTION BORDER TOP ---------- */
+.section--border-top {
+  border-top: 2px solid var(--clr-border);
+}
+
+/* ---------- CARD CTA (large padding variant) ---------- */
+.card--cta {
+  padding: var(--sp-3xl);
+}
+
+.card--cta h2 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+}
+
+.card--cta p {
+  color: var(--clr-secondary);
+  max-width: 480px;
+}
+
+/* ---------- FORM PAGE HEADING ---------- */
+.form-heading {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.form-subtitle {
+  color: var(--clr-secondary);
+  margin-top: var(--sp-sm);
+  font-size: 0.95rem;
+}
+
+/* ---------- FORM LINK ---------- */
+.form-footer {
+  font-size: 0.9rem;
+  color: var(--clr-secondary);
+}
+
+.form-footer a {
+  color: var(--clr-primary);
+  font-weight: 600;
+}
+
+/* ---------- FORM WRAPPER WIDE ---------- */
+.form-wrapper--wide {
+  max-width: 580px;
+}
+
+/* ---------- SECTION TOP PADDING ---------- */
+.section--pt-3xl {
+  padding-top: var(--sp-3xl);
+}
+
+/* ---------- CHECK LIST (o-nas) ---------- */
+.check-list {
+  margin-top: var(--sp-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-sm);
+}
+
+.check-list li {
+  display: flex;
+  gap: var(--sp-sm);
+  align-items: center;
+}
+
+.check-list svg {
+  color: var(--clr-primary);
+  flex-shrink: 0;
+}
+
+/* ---------- GALLERY PLACEHOLDER ICON ---------- */
+.gallery-placeholder svg {
+  margin-right: 6px;
+}
+
+/* ---------- SECTIONS ---------- */
+.section {
+  padding: var(--sp-3xl) 0;
+}
+
+.section--alt {
+  background: var(--clr-bg-alt);
+}
+
+.section__header {
+  text-align: center;
+  margin-bottom: var(--sp-2xl);
+}
+
+.section__header p {
+  color: var(--clr-secondary);
+  margin-top: var(--sp-sm);
+  max-width: 560px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Divider accent */
+.accent-line {
+  width: 48px;
+  height: 3px;
+  background: var(--clr-primary);
+  border-radius: 2px;
+  margin: var(--sp-md) auto 0;
+}
+
+/* ---------- BUTTONS ---------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--sp-sm);
+  font-family: var(--ff-heading);
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.75rem 1.75rem;
+  border-radius: var(--radius);
+  transition: background var(--duration) var(--ease),
+    transform var(--duration) var(--ease),
+    box-shadow var(--duration) var(--ease);
+  cursor: pointer;
+  border: none;
+  white-space: nowrap;
+}
+
+.btn--primary {
+  background: var(--clr-primary);
+  color: #FFFFFF;
+}
+
+.btn--primary:hover {
+  background: var(--clr-primary-hover);
+}
+
+.btn--secondary {
+  background: transparent;
+  color: var(--clr-text);
+  border: 2px solid var(--clr-border);
+}
+
+.btn--secondary:hover {
+  border-color: var(--clr-text);
+  background: var(--clr-bg-alt);
+}
+
+.btn:disabled {
+  opacity: .55;
+  cursor: not-allowed;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ---------- CARDS / GRID ---------- */
+.card-grid {
+  display: grid;
+  gap: var(--sp-lg);
+}
+
+.card-grid--3 {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.card-grid--2 {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+}
+
+.card {
+  background: var(--clr-bg-alt);
+  border: 2px solid var(--clr-border);
+  padding: var(--sp-xl);
+  transition: border-color var(--duration) var(--ease);
+}
+
+.card:hover {
+  border-color: var(--clr-primary);
+}
+
+.card h3 {
+  margin-bottom: var(--sp-sm);
+}
+
+.card p {
+  color: var(--clr-secondary);
+  font-size: 0.95rem;
+}
+
+/* ---------- GALLERY PLACEHOLDERS ---------- */
+.gallery-grid {
+  display: grid;
+  gap: var(--sp-lg);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.gallery-placeholder {
+  aspect-ratio: 16 / 10;
+  background: var(--clr-placeholder-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--clr-secondary);
+  font-family: var(--ff-heading);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid var(--clr-border);
+}
+
+.gallery-placeholder--wide {
+  grid-column: span 2;
+}
+
+@media (max-width: 600px) {
+  .gallery-placeholder--wide {
+    grid-column: span 1;
+  }
+}
+
+/* ---------- FORMS ---------- */
+.form-wrapper {
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--clr-bg-alt);
+  border: 2px solid var(--clr-border);
+  padding: var(--sp-2xl);
+}
+
+.form-group {
+  position: relative;
+  margin-bottom: calc(var(--sp-lg) + 24px);
+  /* Extra space for absolute form-hint */
+}
+
+.form-group label {
+  display: block;
+  font-family: var(--ff-heading);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--sp-xs);
+  color: var(--clr-text);
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.7rem 0.9rem;
+  border: 2px solid var(--clr-border);
+  border-radius: var(--radius);
+  background: var(--clr-bg);
+  color: var(--clr-text);
+  transition: border-color var(--duration) var(--ease),
+    box-shadow var(--duration) var(--ease);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: var(--clr-primary);
+  box-shadow: 0 0 0 3px rgba(155, 27, 34, .1);
+}
+
+.form-group input::placeholder {
+  color: #A0A0A0;
+}
+
+/* Password wrapper */
+.password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 3rem;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.7rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--clr-secondary);
+  cursor: pointer;
+  padding: var(--sp-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--duration) var(--ease);
+}
+
+.password-toggle:hover {
+  color: var(--clr-primary);
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--sp-lg);
+}
+
+@media (max-width: 500px) {
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-error {
+  font-size: 0.8rem;
+  color: var(--clr-error);
+  margin-top: var(--sp-xs);
+  display: none;
+}
+
+/* Validation states */
+.form-group.has-error input {
+  border-color: var(--clr-error);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, .1);
+}
+
+.form-group.has-error label {
+  color: var(--clr-error);
+}
+
+.form-group.has-success input {
+  border-color: #2e7d32;
+  box-shadow: 0 0 0 3px rgba(46, 125, 50, .08);
+}
+
+.form-hint {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--clr-error);
+  margin-top: 4px;
+  padding: 6px 10px;
+  background: rgba(239, 68, 68, .06);
+  border-left: 3px solid var(--clr-error);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-4px);
+  transition: opacity 0.2s var(--ease), transform 0.2s var(--ease), visibility 0.2s;
+  z-index: 10;
+}
+
+.form-hint.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.form-hint svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* ---------- FOOTER ---------- */
+.footer {
+  background: var(--clr-bg-alt);
+  color: var(--clr-text);
+  padding: var(--sp-2xl) 0 var(--sp-lg);
+}
+
+.footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--sp-xl);
+}
+
+.footer-col {
+  min-width: 200px;
+}
+
+.footer-col h4 {
+  color: var(--clr-text);
+  font-family: var(--ff-heading);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--sp-md);
+}
+
+.footer-col a {
+  display: block;
+  color: rgba(255, 255, 255, .7);
+  font-size: 0.9rem;
+  padding: var(--sp-xs) 0;
+  transition: color var(--duration) var(--ease);
+}
+
+.footer-col a:hover {
+  color: var(--clr-text);
+}
+
+.footer-bottom {
+  margin-top: var(--sp-xl);
+  padding-top: var(--sp-lg);
+  border-top: 1px solid rgba(255, 255, 255, .12);
+  text-align: center;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, .45);
+}
+
+/* ---------- PRICING TABLE ---------- */
+.pricing-grid {
+  display: grid;
+  gap: var(--sp-lg);
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+}
+
+.pricing-card {
+  background: var(--clr-bg);
+  border: 2px solid var(--clr-border);
+  padding: var(--sp-xl);
+  text-align: center;
+  transition: border-color var(--duration) var(--ease);
+}
+
+.pricing-card:hover {
+  border-color: var(--clr-primary);
+}
+
+.pricing-card.featured {
+  border-color: var(--clr-primary);
+  border-width: 2px;
+  position: relative;
+}
+
+.pricing-card .price {
+  font-family: var(--ff-heading);
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: var(--clr-text);
+  margin: var(--sp-md) 0 var(--sp-xs);
+}
+
+.pricing-card .price-unit {
+  font-size: 0.85rem;
+  color: var(--clr-secondary);
+  font-weight: 400;
+}
+
+.pricing-card .price-label {
+  font-family: var(--ff-heading);
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--clr-text);
+}
+
+.pricing-card p {
+  color: var(--clr-secondary);
+  font-size: 0.9rem;
+  margin-top: var(--sp-sm);
+  margin-bottom: var(--sp-lg);
+}
+
+/* ---------- Feature List ---------- */
+.feature-list {
+  display: grid;
+  gap: var(--sp-lg);
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.feature-item {
+  display: flex;
+  gap: var(--sp-md);
+  align-items: flex-start;
+}
+
+.feature-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius);
+  background: rgba(155, 27, 34, .08);
+  color: var(--clr-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.2rem;
+}
+
+.feature-item h4 {
+  margin-bottom: var(--sp-xs);
+}
+
+.feature-item p {
+  color: var(--clr-secondary);
+  font-size: 0.9rem;
+}
+
+/* ---------- Utility ---------- */
+.text-center {
+  text-align: center;
+}
+
+.mt-sm {
+  margin-top: var(--sp-sm);
+}
+
+.mt-md {
+  margin-top: var(--sp-md);
+}
+
+.mt-lg {
+  margin-top: var(--sp-lg);
+}
+
+.mt-xl {
+  margin-top: var(--sp-xl);
+}
+
+.mt-2xl {
+  margin-top: var(--sp-2xl);
+}
+
+.mb-lg {
+  margin-bottom: var(--sp-lg);
+}
+
+/* Fade-in animation */
+.fade-in {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s var(--ease), transform 0.5s var(--ease);
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+================================================================================
+  SOUBOR: components.js
+================================================================================
+
+/* =============================================
+   Fitko na Hegerce — Shared Components & Logic
+   ============================================= */
+
+/**
+ * Determines which page is currently active based on the filename.
+ * @returns {string} filename like "index.html", "o-nas.html" etc.
+ */
+function getCurrentPage() {
+  const path = window.location.pathname;
+  const file = path.substring(path.lastIndexOf('/') + 1) || 'index.html';
+  return file;
+}
+
+/**
+ * Renders the navbar into the element with id="navbar".
+ */
+function renderNavbar() {
+  const target = document.getElementById('navbar');
+  if (!target) return;
+
+  const current = getCurrentPage();
+
+  const links = [
+    { label: 'Úvod',    href: 'index.html' },
+    { label: 'O nás',   href: 'o-nas.html' },
+    { label: 'Vstupy',  href: 'vstupy.html' },
+    { label: 'Fitko',   href: 'fitko.html' },
+    { label: 'Přihlásit', href: 'login.html' },
+  ];
+
+  const navLinksHTML = links.map(link => {
+    const active = current === link.href ? ' active' : '';
+    return `<a href="${link.href}" class="${active}">${link.label}</a>`;
+  }).join('');
+
+  const ctaActive = current === 'registrace.html' ? ' active' : '';
+
+  target.innerHTML = `
+    <nav class="navbar" role="navigation" aria-label="Hlavní navigace">
+      <div class="container">
+        <a href="index.html" class="logo-placeholder" aria-label="Domů">
+          <span>Logo</span>
+        </a>
+
+        <div class="nav-links" id="navLinks">
+          ${navLinksHTML}
+          <a href="registrace.html" class="nav-cta${ctaActive}">Vytvořit účet</a>
+        </div>
+
+        <button class="hamburger" id="hamburger" aria-label="Otevřít menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </nav>
+    <div class="nav-overlay" id="navOverlay"></div>
+  `;
+
+  // Hamburger toggle
+  const hamburger = document.getElementById('hamburger');
+  const navLinks  = document.getElementById('navLinks');
+  const overlay   = document.getElementById('navOverlay');
+
+  function toggleMenu() {
+    const isOpen = navLinks.classList.toggle('open');
+    hamburger.classList.toggle('open');
+    overlay.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  }
+
+  hamburger.addEventListener('click', toggleMenu);
+  overlay.addEventListener('click', toggleMenu);
+
+  // Close menu on link click (mobile)
+  navLinks.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => {
+      if (navLinks.classList.contains('open')) toggleMenu();
+    });
+  });
+}
+
+/**
+ * Renders the footer into the element with id="footer".
+ */
+function renderFooter() {
+  const target = document.getElementById('footer');
+  if (!target) return;
+
+  const year = new Date().getFullYear();
+
+  target.innerHTML = `
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-col">
+          <h4>Fitko na Hegerce</h4>
+          <p style="color:rgba(255,255,255,.6); font-size:.9rem; line-height:1.5;">
+            Malé fitness centrum v&nbsp;srdci Poličky.<br>
+            70&nbsp;m² prostoru pro váš trénink.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Navigace</h4>
+          <a href="index.html">Úvod</a>
+          <a href="o-nas.html">O nás</a>
+          <a href="vstupy.html">Vstupy</a>
+          <a href="fitko.html">Fitko</a>
+        </div>
+        <div class="footer-col">
+          <h4>Kontakt</h4>
+          <a href="mailto:filipbaca01@gmail.com">filipbaca01@gmail.com</a>
+          <a href="tel:+420778437692">+420 778 437 692</a>
+          <a href="https://www.google.com/maps/search/?api=1&query=S%C3%ADdl.+Hegerova+1019,+Poli%C4%8Dka" target="_blank" rel="noopener noreferrer">
+            Polička: Sídl. Hegerova 1019
+          </a>
+        </div>
+        <div class="footer-col">
+          <h4>Účet</h4>
+          <a href="login.html">Přihlásit se</a>
+          <a href="registrace.html">Vytvořit účet</a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        &copy; ${year} Fitko na Hegerce. Všechna práva vyhrazena.
+      </div>
+    </footer>
+  `;
+}
+
+/**
+ * Initialise Intersection Observer for .fade-in elements.
+ */
+function initFadeIn() {
+  const els = document.querySelectorAll('.fade-in');
+  if (!els.length) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  els.forEach(el => observer.observe(el));
+}
+
+/**
+ * Password visibility toggle logic.
+ */
+function initPasswordToggles() {
+  document.querySelectorAll('.password-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const input = btn.parentElement.querySelector('input');
+      if (!input) return;
+      const isPassword = input.type === 'password';
+      input.type = isPassword ? 'text' : 'password';
+      // Switch icon
+      btn.innerHTML = isPassword ? eyeOffSVG : eyeSVG;
+      btn.setAttribute('aria-label', isPassword ? 'Skrýt heslo' : 'Zobrazit heslo');
+    });
+  });
+}
+
+/* SVG icons for password toggle */
+const eyeSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+
+const eyeOffSVG = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>`;
+
+/**
+ * Disable submit button after form submission (anti-spam).
+ */
+function initFormProtection() {
+  document.querySelectorAll('form[data-protect]').forEach(form => {
+    form.addEventListener('submit', (e) => {
+      const btn = form.querySelector('button[type="submit"]');
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Odesílání…';
+      }
+      // For demo purposes, prevent actual submission
+      // In production, remove this preventDefault
+      e.preventDefault();
+      // Re-enable after 3 s for demo
+      setTimeout(() => {
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = btn.dataset.originalText || 'Odeslat';
+        }
+      }, 3000);
+    });
+  });
+}
+
+/**
+ * XSS sanitization helper for any user-facing text rendering.
+ */
+function sanitize(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+/* ---------- Bootstrap everything on DOMContentLoaded ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  renderNavbar();
+  renderFooter();
+  initFadeIn();
+  initPasswordToggles();
+  initFormProtection();
+});
+
+
+
+================================================================================
+  SOUBOR: index.html
+================================================================================
+
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Fitko na Hegerce — malé fitness centrum v Poličce. 70 m² prostoru pro váš trénink. Přijďte si zacvičit!">
+  <title>Fitko na Hegerce — Úvod</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <div id="navbar"></div>
+
+  <main>
+    <section class="hero hero--home">
+      <div class="container">
+        <h1 class="text-display fade-in">
+          Fitko na Hegerce
+        </h1>
+        <p class="fade-in accent-bar">
+          70&nbsp;m² poctivě vybaveného fitness prostoru na sídlišti Hegerova v Poličce. Žádné fronty, žádné závazky.
+        </p>
+        <div class="fade-in btn-group">
+          <a href="registrace.html" class="btn btn--primary btn--lg">Založit účet (první vstup zdarma)</a>
+          <a href="vstupy.html" class="btn btn--secondary btn--lg">Ceník</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--border-top">
+      <div class="container">
+        <div class="card-grid card-grid--2 fade-in">
+          <div class="card">
+            <h3>Klid na trénink</h3>
+            <p class="mt-sm">Nejsme obří komerční fitko. Kapacitu si hlídáme tak, aby tu nebylo
+              přelidněno a měli jste prostor si v klidu zacvičit.</p>
+          </div>
+          <div class="card">
+            <h3>Pořádné stroje</h3>
+            <p class="mt-sm">Od poctivých jednoruček až po profi stroje značky Impulse řady ECP.
+              Vybavení jsme volili tak, aby tu nic nechybělo.</p>
+          </div>
+          <div class="card">
+            <h3>Férový přístup</h3>
+            <p class="mt-sm">Koupíte si vstup nebo permanentku a cvičíte. Žádné dlouhodobé smlouvy,
+              skryté poplatky ani nesmyslné závazky.</p>
+          </div>
+          <div class="card">
+            <h3>Kousek od domu</h3>
+            <p class="mt-sm">Najdete nás přímo na sídlišti Hegerova. Můžete dorazit pěšky, nebo
+              zaparkovat autem hned vedle budovy.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container fade-in">
+        <div class="card card--cta">
+          <h2 class="mb-lg">Zastavte se to vyzkoušet.</h2>
+          <p class="mb-lg">
+            Účet u nás si vytvoříte za pár vteřin. Slouží k tomu, abyste měli přehled o svých vstupech a mohli si
+            rezervovat místo.
+          </p>
+          <a href="registrace.html" class="btn btn--primary">Vytvořit účet</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <div id="footer"></div>
+
+  <script src="components.js"></script>
+</body>
+
+</html>
+
+
+================================================================================
+  SOUBOR: o-nas.html
+================================================================================
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Poznejte příběh Fitka na Hegerce — malého fitness centra v Poličce, které vzniklo z vášně ke cvičení.">
+  <title>O nás — Fitko na Hegerce</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1 class="fade-in">O nás</h1>
+        <p class="fade-in">Jsme malé komunitní fitko, kde se všichni známe jménem.</p>
+      </div>
+    </section>
+
+    <section class="section section--alt">
+      <div class="container">
+        <div class="card-grid card-grid--2">
+          <div class="card fade-in">
+            <h3>V kostce</h3>
+            <p>70&nbsp;m² tréninkového prostoru na sídlišti Hegerova v&nbsp;Poličce. Stroje Impulse řady ECP, volné váhy, kardio zóna. Bez front, bez zbytečností.</p>
+            <p class="mt-md">Kapacita je záměrně omezená — chceme, aby měl každý dost místa a&nbsp;klid na trénink.</p>
+          </div>
+          <div class="card fade-in">
+            <h3>Co nás odlišuje</h3>
+            <p>Nejsme řetězec a&nbsp;nechceme jím být. Soustředíme se na kvalitu, ne na kvantitu. Každý klient u&nbsp;nás má dostatek prostoru a&nbsp;pozornosti.</p>
+            <ul class="check-list">
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Komunitní atmosféra
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Osobní přístup
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Férové ceny
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Čistota a pořádek
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container text-center fade-in">
+        <h2>Kde nás najdete</h2>
+        <div class="accent-line"></div>
+        <p class="mt-md form-subtitle">
+          Polička, Sídl. Hegerova 1019
+        </p>
+        <a href="https://www.google.com/maps/search/?api=1&query=S%C3%ADdl.+Hegerova+1019,+Poli%C4%8Dka" target="_blank" rel="noopener noreferrer" class="btn btn--secondary mt-lg">
+          Otevřít v Google Maps →
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+  <script src="components.js"></script>
+</body>
+</html>
+
+
+
+================================================================================
+  SOUBOR: vstupy.html
+================================================================================
+
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Ceník vstupů do Fitka na Hegerce — jednorázové vstupy, 10-vstupové karty a měsíční permanentky.">
+  <title>Vstupy — Fitko na Hegerce</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="navbar"></div>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1 class="fade-in">Vstupy &amp; Ceník</h1>
+        <p class="fade-in">Vyberte si variantu, která vám vyhovuje. Žádné skryté poplatky, žádné závazky.</p>
+      </div>
+    </section>
+
+    <section class="section section--alt">
+      <div class="container">
+        <div class="pricing-grid fade-in">
+
+          <!-- Single entry -->
+          <div class="pricing-card">
+            <span class="price-label">Jednorázový vstup</span>
+            <div class="price">80 <span class="price-unit">Kč</span></div>
+            <p>Přijďte si zacvičit, kdykoli se vám hodí. Platí na jeden den.</p>
+            <a href="registrace.html" class="btn btn--secondary">Začít cvičit</a>
+          </div>
+
+          <!-- 10-pass -->
+          <div class="pricing-card featured">
+            <span class="price-label">10 vstupů</span>
+            <div class="price">650 <span class="price-unit">Kč</span></div>
+            <p>Ušetříte 150&nbsp;Kč oproti jednorázovým vstupům. Platnost 3&nbsp;měsíce.</p>
+            <a href="registrace.html" class="btn btn--primary">Nejlepší volba</a>
+          </div>
+
+          <!-- Monthly -->
+          <div class="pricing-card">
+            <span class="price-label">Měsíční permanentka</span>
+            <div class="price">900 <span class="price-unit">Kč</span></div>
+            <p>Neomezený počet vstupů po celý měsíc. Pro ty, co to myslí vážně.</p>
+            <a href="registrace.html" class="btn btn--secondary">Vybrat</a>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section__header fade-in">
+          <h2>Co je zahrnuto</h2>
+          <div class="accent-line"></div>
+        </div>
+        <div class="feature-list fade-in">
+          <div class="feature-item">
+            <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4v5h16V4" />
+                <path d="M4 9l2 11h12l2-11" />
+                <line x1="8" y1="13" x2="8" y2="16" />
+                <line x1="12" y1="13" x2="12" y2="16" />
+                <line x1="16" y1="13" x2="16" y2="16" />
+              </svg></div>
+            <div>
+              <h4>Šatny &amp; sprchy</h4>
+              <p>Čisté šatny se zamykatelnými skříňkami a&nbsp;sprchami jsou samozřejmostí.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6 5v14" />
+                <path d="M18 5v14" />
+                <path d="M6 12h12" />
+                <path d="M3 8h6" />
+                <path d="M3 16h6" />
+                <path d="M15 8h6" />
+                <path d="M15 16h6" />
+              </svg></div>
+            <div>
+              <h4>Veškeré vybavení</h4>
+              <p>Přístup ke všem strojům a&nbsp;volným vahám v&nbsp;ceně každého vstupu.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 18V5l12-2v13" />
+                <circle cx="6" cy="18" r="3" />
+                <circle cx="18" cy="16" r="3" />
+              </svg></div>
+            <div>
+              <h4>Hudba &amp; atmosféra</h4>
+              <p>Motivační hudba a&nbsp;příjemné prostředí pro váš trénink.</p>
+            </div>
+          </div>
+          <div class="feature-item">
+            <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="3" width="18" height="18" rx="3" />
+                <path d="M9 17V7h4a3 3 0 0 1 0 6H9" />
+              </svg></div>
+            <div>
+              <h4>Parkování</h4>
+              <p>Bezplatné parkování přímo u&nbsp;budovy.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+  <script src="components.js"></script>
+</body>
+
+</html>
+
+
+================================================================================
+  SOUBOR: fitko.html
+================================================================================
+
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Prohlédněte si prostory Fitka na Hegerce — šatny, posilovací stroje a budovu zvenku.">
+  <title>Fitko — Fitko na Hegerce</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="navbar"></div>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1 class="fade-in">Naše fitko</h1>
+        <p class="fade-in">Podívejte se, jak to u nás vypadá. Kompaktní, čisté a plně vybavené.</p>
+      </div>
+    </section>
+
+    <section class="section section--alt">
+      <div class="container">
+        <div class="section__header fade-in">
+          <h2>Galerie</h2>
+          <div class="accent-line"></div>
+          <p>Fotky budou brzy doplněny. Níže vidíte připravené pozice pro snímky.</p>
+        </div>
+
+        <div class="gallery-grid fade-in">
+          <div class="gallery-placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Fotka šaten
+          </div>
+          <div class="gallery-placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Prostor fitka — stroje I
+          </div>
+          <div class="gallery-placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Prostor fitka — stroje II
+          </div>
+          <div class="gallery-placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg> Budova zvenku
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section__header fade-in">
+          <h2>Vybavení</h2>
+          <div class="accent-line"></div>
+        </div>
+        <div class="card-grid card-grid--3 fade-in">
+          <div class="card">
+            <h3>Volné váhy</h3>
+            <p>Jednoručky, olympijská osa, kotouče a stojan na dřepy. Vše, co potřebujete pro silový trénink.</p>
+          </div>
+          <div class="card">
+            <h3>Stroje</h3>
+            <p>Kladkový stroj, leg press, hrudní lis a&nbsp;další. Všechny stroje jsou značky <strong>Impulse</strong>, řady <strong>ECP</strong>&nbsp;— prémiová profesionální řada navržená pro komerční fitness centra.</p>
+          </div>
+          <div class="card">
+            <h3>Kardio</h3>
+            <p>Běžecký pás a rotoped pro zahřátí nebo kardio trénink.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+  <script src="components.js"></script>
+</body>
+</html>
+
+
+
+================================================================================
+  SOUBOR: login.html
+================================================================================
+
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Přihlaste se ke svému účtu ve Fitku na Hegerce.">
+  <title>Přihlásit se — Fitko na Hegerce</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="navbar"></div>
+
+  <main>
+    <section class="section section--pt-3xl">
+      <div class="container">
+        <div class="form-wrapper fade-in">
+          <div class="text-center mb-lg">
+            <h1 class="form-heading">Přihlášení</h1>
+            <p class="form-subtitle">
+              Zadejte své přihlašovací údaje.
+            </p>
+          </div>
+
+          <form method="POST" data-protect novalidate>
+            <div class="form-group">
+              <label for="login-email">E-mailová adresa</label>
+              <input type="email" id="login-email" name="email" placeholder="vas@email.cz" required
+                autocomplete="email">
+            </div>
+
+            <div class="form-group">
+              <label for="login-password">Heslo</label>
+              <div class="password-wrapper">
+                <input type="password" id="login-password" name="password" placeholder="Zadejte heslo" required
+                  autocomplete="current-password">
+                <button type="button" class="password-toggle" aria-label="Zobrazit heslo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--full" data-original-text="Přihlásit se">
+              Přihlásit se
+            </button>
+
+            <p class="text-center mt-lg form-footer">
+              Nemáte účet? <a href="registrace.html">Zaregistrujte se</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+  <script src="components.js"></script>
+</body>
+
+</html>
+
+
+================================================================================
+  SOUBOR: registrace.html
+================================================================================
+
+<!DOCTYPE html>
+<html lang="cs">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Vytvořte si účet ve Fitku na Hegerce a získejte přístup k rezervacím a speciálním nabídkám.">
+  <title>Vytvořit účet — Fitko na Hegerce</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <div id="navbar"></div>
+
+  <main>
+    <section class="section section--pt-3xl">
+      <div class="container">
+        <div class="form-wrapper form-wrapper--wide fade-in">
+          <div class="text-center mb-lg">
+            <h1 class="form-heading">Vytvořit účet</h1>
+            <p class="form-subtitle">
+              Zaregistrujte se a&nbsp;začněte trénovat.
+            </p>
+          </div>
+
+          <form method="POST" id="registrationForm" data-protect novalidate>
+
+            <!-- Jméno + Příjmení -->
+            <div class="form-row">
+              <div class="form-group">
+                <label for="reg-firstname">Jméno</label>
+                <input type="text" id="reg-firstname" name="firstname" placeholder="Jan" required
+                  autocomplete="given-name">
+              </div>
+              <div class="form-group">
+                <label for="reg-lastname">Příjmení</label>
+                <input type="text" id="reg-lastname" name="lastname" placeholder="Novák" required
+                  autocomplete="family-name">
+              </div>
+            </div>
+
+            <!-- Telefon -->
+            <div class="form-group">
+              <label for="reg-phone">Telefonní číslo</label>
+              <input type="tel" id="reg-phone" name="phone" placeholder="+420 123 456 789" required
+                pattern="^\+?[0-9\s]{9,15}$" title="Zadejte platné telefonní číslo (9–15 číslic, volitelně s +)"
+                autocomplete="tel">
+            </div>
+
+            <!-- E-mail -->
+            <div class="form-group">
+              <label for="reg-email">E-mailová adresa</label>
+              <input type="email" id="reg-email" name="email" placeholder="vas@email.cz" required autocomplete="email">
+            </div>
+
+            <!-- Datum narození -->
+            <div class="form-group">
+              <label for="reg-birthdate">Datum narození</label>
+              <input type="date" id="reg-birthdate" name="birthdate" required autocomplete="bday">
+            </div>
+
+            <!-- Heslo -->
+            <div class="form-group">
+              <label for="reg-password">Heslo</label>
+              <div class="password-wrapper">
+                <input type="password" id="reg-password" name="password" placeholder="Min. 8 znaků" required
+                  minlength="8" autocomplete="new-password">
+                <button type="button" class="password-toggle" aria-label="Zobrazit heslo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <!-- Kontrola hesla -->
+            <div class="form-group">
+              <label for="reg-password-confirm">Kontrola hesla</label>
+              <div class="password-wrapper">
+                <input type="password" id="reg-password-confirm" name="password_confirm" placeholder="Zopakujte heslo"
+                  required minlength="8" autocomplete="new-password">
+                <button type="button" class="password-toggle" aria-label="Zobrazit heslo">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                    <circle cx="12" cy="12" r="3" />
+                  </svg>
+                </button>
+              </div>
+              <div class="form-error" id="passwordMatchError">Hesla se neshodují.</div>
+            </div>
+
+            <button type="submit" class="btn btn--primary btn--full" data-original-text="Vytvořit účet">
+              Vytvořit účet
+            </button>
+
+            <p class="text-center mt-lg form-footer">
+              Už máte účet? <a href="login.html">Přihlaste se</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="footer"></div>
+
+  <script src="components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('registrationForm');
+      const inputs = form.querySelectorAll('input');
+
+      // Helper function to create or get the hint element for an input
+      function getHintElement(input) {
+        const group = input.closest('.form-group');
+        let hint = group.querySelector('.form-hint');
+        if (!hint) {
+          hint = document.createElement('div');
+          hint.className = 'form-hint';
+          // Insert alert icon SVG
+          hint.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg><span></span>`;
+          // If in a password wrapper, insert after the wrapper, else insert after input
+          const wrapper = input.closest('.password-wrapper');
+          if (wrapper) {
+            wrapper.after(hint);
+          } else {
+            input.after(hint);
+          }
+        }
+        return hint;
+      }
+
+      function hideOtherErrors(currentInput) {
+        inputs.forEach(inp => {
+          if (inp !== currentInput) {
+            const group = inp.closest('.form-group');
+            group.classList.remove('has-error');
+            const hint = getHintElement(inp);
+            hint.classList.remove('visible');
+          }
+        });
+      }
+
+      function showError(input, message) {
+        hideOtherErrors(input);
+        const group = input.closest('.form-group');
+        group.classList.remove('has-success');
+        group.classList.add('has-error');
+        input.dataset.invalid = "true";
+        const hint = getHintElement(input);
+        hint.querySelector('span').textContent = message;
+        hint.classList.add('visible');
+      }
+
+      function showSuccess(input) {
+        const group = input.closest('.form-group');
+        group.classList.remove('has-error');
+        group.classList.add('has-success');
+        input.dataset.invalid = "false";
+        const hint = getHintElement(input);
+        hint.classList.remove('visible');
+      }
+
+      function clearValidation(input) {
+        const group = input.closest('.form-group');
+        group.classList.remove('has-error', 'has-success');
+        input.dataset.invalid = "false";
+        const hint = getHintElement(input);
+        hint.classList.remove('visible');
+      }
+
+      function validateInput(input) {
+        const isPassword = input.type === 'password';
+        const val = isPassword ? input.value : input.value.trim();
+
+        // Empty check
+        if (input.required && !val) {
+          showError(input, 'Toto pole je povinné.');
+          return false;
+        }
+
+        // Phone validation
+        if (input.type === 'tel') {
+          if (/[a-zA-Z]/.test(val)) {
+            showError(input, 'Telefonní číslo nesmí obsahovat písmena. Použijte pouze číslice, případně mezeru a + na začátku.');
+            return false;
+          }
+          if (!/^\+?[0-9\s]{9,15}$/.test(val)) {
+            showError(input, 'Zadejte platné telefonní číslo (9–15 číslic).');
+            return false;
+          }
+        }
+
+        // Email validation
+        if (input.type === 'email') {
+          if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val)) {
+            showError(input, 'Zadejte e-mail ve správném formátu (např. vas@email.cz).');
+            return false;
+          }
+        }
+
+        // Password validation
+        if (input.id === 'reg-password') {
+          if (val.length < 8) {
+            showError(input, 'Heslo musí mít alespoň 8 znaků.');
+            return false;
+          }
+        }
+
+        // Password confirm validation
+        if (input.id === 'reg-password-confirm') {
+          const pw1 = document.getElementById('reg-password').value;
+          if (val !== pw1) {
+            showError(input, 'Hesla se neshodují. Zkontrolujte překlepy.');
+            return false;
+          }
+        }
+
+        // If all checks pass
+        showSuccess(input);
+        return true;
+      }
+
+      // Hide the old basic error message if it still exists
+      const oldMatchError = document.getElementById('passwordMatchError');
+      if (oldMatchError) oldMatchError.style.display = 'none';
+
+      // Attach events to inputs
+      inputs.forEach(input => {
+        // Prevent typing letters in phone field completely (optional enhancement)
+        if (input.type === 'tel') {
+          input.addEventListener('keypress', (e) => {
+            // Allow numbers, space, +, backspace, etc.
+            if (!/[\d\s\+]/.test(e.key) && e.key.length === 1 && !e.ctrlKey && !e.metaKey) {
+              e.preventDefault();
+              showError(input, 'Zadali jste nepovolený znak. Telefon může obsahovat jen čísla, mezeru a +.');
+            }
+          });
+        }
+
+        input.addEventListener('input', () => {
+          // Validate immediately on typing
+          if (input.value.trim() !== '') {
+            validateInput(input);
+          } else {
+            clearValidation(input);
+          }
+
+          // If typing in first password, re-validate second if it has value
+          if (input.id === 'reg-password') {
+            const pw2 = document.getElementById('reg-password-confirm');
+            if (pw2.value) validateInput(pw2);
+          }
+        });
+
+        input.addEventListener('blur', () => {
+          validateInput(input);
+        });
+
+        // Show error hint again if we focus an invalid field
+        input.addEventListener('focus', () => {
+          if (input.dataset.invalid === "true") {
+            validateInput(input);
+          }
+        });
+      });
+
+      // Form submit validation
+      form.addEventListener('submit', (e) => {
+        let isValid = true;
+        let firstInvalidInput = null;
+
+        // Evaluate from bottom to top so the topmost invalid field calls showError last,
+        // thereby hiding all errors below it and staying visible.
+        for (let i = inputs.length - 1; i >= 0; i--) {
+          const input = inputs[i];
+          if (!validateInput(input)) {
+            isValid = false;
+            firstInvalidInput = input;
+          }
+        }
+
+        if (!isValid) {
+          e.preventDefault();
+          if (firstInvalidInput) {
+            firstInvalidInput.focus();
+          }
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>
+
