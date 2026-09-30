@@ -9,16 +9,22 @@
 :root {
   /* Brand palette */
   --clr-primary: #9B1B22;
-  --clr-primary-hover: #b92028; /* Světlejší červená pro hover na tmavém pozadí */
-  --clr-secondary: #A0A0A0; /* Světlejší šedá pro podnadpisy */
-  --clr-text: #F0F0F0; /* Off-white pro hlavní text, ne čistá bílá */
-  
+  --clr-primary-hover: #b92028;
+  /* Světlejší červená pro hover na tmavém pozadí */
+  --clr-secondary: #A0A0A0;
+  /* Světlejší šedá pro podnadpisy */
+  --clr-text: #F0F0F0;
+  /* Off-white pro hlavní text, ne čistá bílá */
+
   /* Dark mode backgrounds */
-  --clr-bg: #121212; /* Hluboká asfaltová šedá */
-  --clr-bg-alt: #1E1E1E; /* Světlejší vrstva pro karty a sekce */
-  
+  --clr-bg: #121212;
+  /* Hluboká asfaltová šedá */
+  --clr-bg-alt: #1E1E1E;
+  /* Světlejší vrstva pro karty a sekce */
+
   /* Borders and UI */
-  --clr-border: #333333; /* Subtilní tmavé ohraničení */
+  --clr-border: #333333;
+  /* Subtilní tmavé ohraničení */
   --clr-placeholder-bg: #2A2A2A;
   --clr-error: #ef4444;
 
