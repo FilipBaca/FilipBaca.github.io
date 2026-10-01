@@ -21,11 +21,13 @@ function renderNavbar() {
 
   const current = getCurrentPage();
 
+  const isIndex = current === 'index.html' || current === '';
+
   const links = [
-    { label: 'Úvod',    href: 'index.html' },
-    { label: 'O nás',   href: 'index.html#o-nas' },
-    { label: 'Vstupy',  href: 'index.html#vstupy' },
-    { label: 'Fitko',   href: 'index.html#fitko' },
+    { label: 'Úvod',    href: isIndex ? '#' : 'index.html' },
+    { label: 'O nás',   href: isIndex ? '#o-nas' : 'index.html#o-nas' },
+    { label: 'Vstupy',  href: isIndex ? '#vstupy' : 'index.html#vstupy' },
+    { label: 'Fitko',   href: isIndex ? '#fitko' : 'index.html#fitko' },
     { label: 'Přihlásit', href: 'login.html' },
   ];
 
@@ -74,10 +76,24 @@ function renderNavbar() {
   hamburger.addEventListener('click', toggleMenu);
   overlay.addEventListener('click', toggleMenu);
 
-  // Close menu on link click (mobile)
+  // Close menu on link click (mobile) and handle smooth scroll
   navLinks.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => {
-      if (navLinks.classList.contains('open')) toggleMenu();
+    a.addEventListener('click', (e) => {
+      if (navLinks.classList.contains('open')) {
+        toggleMenu();
+      }
+
+      // Smooth scroll for hash links on the same page
+      const href = a.getAttribute('href');
+      if (href && href.startsWith('#') && href !== '#') {
+        e.preventDefault();
+        const targetElement = document.querySelector(href);
+        if (targetElement) {
+          setTimeout(() => {
+            targetElement.scrollIntoView({ behavior: 'smooth' });
+          }, 100); // Wait for overflow: hidden to be removed
+        }
+      }
     });
   });
 }
@@ -89,6 +105,8 @@ function renderFooter() {
   const target = document.getElementById('footer');
   if (!target) return;
 
+  const current = getCurrentPage();
+  const isIndex = current === 'index.html' || current === '';
   const year = new Date().getFullYear();
 
   target.innerHTML = `
@@ -103,10 +121,10 @@ function renderFooter() {
         </div>
         <div class="footer-col">
           <h4>Navigace</h4>
-          <a href="index.html">Úvod</a>
-          <a href="index.html#o-nas">O nás</a>
-          <a href="index.html#vstupy">Vstupy</a>
-          <a href="index.html#fitko">Fitko</a>
+          <a href="${isIndex ? '#' : 'index.html'}">Úvod</a>
+          <a href="${isIndex ? '#o-nas' : 'index.html#o-nas'}">O nás</a>
+          <a href="${isIndex ? '#vstupy' : 'index.html#vstupy'}">Vstupy</a>
+          <a href="${isIndex ? '#fitko' : 'index.html#fitko'}">Fitko</a>
         </div>
         <div class="footer-col">
           <h4>Kontakt</h4>
