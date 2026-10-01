@@ -23,9 +23,9 @@ function renderNavbar() {
 
   const links = [
     { label: 'Úvod',    href: 'index.html' },
-    { label: 'O nás',   href: 'o-nas.html' },
-    { label: 'Vstupy',  href: 'vstupy.html' },
-    { label: 'Fitko',   href: 'fitko.html' },
+    { label: 'O nás',   href: 'index.html#o-nas' },
+    { label: 'Vstupy',  href: 'index.html#vstupy' },
+    { label: 'Fitko',   href: 'index.html#fitko' },
     { label: 'Přihlásit', href: 'login.html' },
   ];
 
@@ -104,9 +104,9 @@ function renderFooter() {
         <div class="footer-col">
           <h4>Navigace</h4>
           <a href="index.html">Úvod</a>
-          <a href="o-nas.html">O nás</a>
-          <a href="vstupy.html">Vstupy</a>
-          <a href="fitko.html">Fitko</a>
+          <a href="index.html#o-nas">O nás</a>
+          <a href="index.html#vstupy">Vstupy</a>
+          <a href="index.html#fitko">Fitko</a>
         </div>
         <div class="footer-col">
           <h4>Kontakt</h4>

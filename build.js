@@ -4,9 +4,6 @@ const files = [
   'style.css',
   'components.js',
   'index.html',
-  'o-nas.html',
-  'vstupy.html',
-  'fitko.html',
   'login.html',
   'registrace.html'
 ];
@@ -19,10 +16,7 @@ let output = `==================================================================
 Struktura projektu:
   ├── style.css           (Design systém & globální styly)
   ├── components.js       (Sdílená navigace, patička, JS logika)
-  ├── index.html          (Úvodní stránka)
-  ├── o-nas.html          (O nás)
-  ├── vstupy.html         (Vstupy & Ceník)
-  ├── fitko.html          (Fitko — galerie & vybavení)
+  ├── index.html          (One-Pager — Úvod, O nás, Fitko, Vstupy)
   ├── login.html          (Přihlášení)
   └── registrace.html     (Registrace)\n\n`;
 

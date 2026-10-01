@@ -1,15 +1,12 @@
 ================================================================================
   FITKO NA HEGERCE — KOMPLETNÍ ZDROJOVÝ KÓD
-  Vygenerováno: 30. 9. 2026
+  Vygenerováno: 1. 10. 2026
 ================================================================================
 
 Struktura projektu:
   ├── style.css           (Design systém & globální styly)
   ├── components.js       (Sdílená navigace, patička, JS logika)
-  ├── index.html          (Úvodní stránka)
-  ├── o-nas.html          (O nás)
-  ├── vstupy.html         (Vstupy & Ceník)
-  ├── fitko.html          (Fitko — galerie & vybavení)
+  ├── index.html          (One-Pager — Úvod, O nás, Fitko, Vstupy)
   ├── login.html          (Přihlášení)
   └── registrace.html     (Registrace)
 
@@ -29,16 +26,22 @@ Struktura projektu:
 :root {
   /* Brand palette */
   --clr-primary: #9B1B22;
-  --clr-primary-hover: #b92028; /* Světlejší červená pro hover na tmavém pozadí */
-  --clr-secondary: #A0A0A0; /* Světlejší šedá pro podnadpisy */
-  --clr-text: #F0F0F0; /* Off-white pro hlavní text, ne čistá bílá */
-  
+  --clr-primary-hover: #b92028;
+  /* Světlejší červená pro hover na tmavém pozadí */
+  --clr-secondary: #A0A0A0;
+  /* Světlejší šedá pro podnadpisy */
+  --clr-text: #F0F0F0;
+  /* Off-white pro hlavní text, ne čistá bílá */
+
   /* Dark mode backgrounds */
-  --clr-bg: #121212; /* Hluboká asfaltová šedá */
-  --clr-bg-alt: #1E1E1E; /* Světlejší vrstva pro karty a sekce */
-  
+  --clr-bg: #121212;
+  /* Hluboká asfaltová šedá */
+  --clr-bg-alt: #1E1E1E;
+  /* Světlejší vrstva pro karty a sekce */
+
   /* Borders and UI */
-  --clr-border: #333333; /* Subtilní tmavé ohraničení */
+  --clr-border: #333333;
+  /* Subtilní tmavé ohraničení */
   --clr-placeholder-bg: #2A2A2A;
   --clr-error: #ef4444;
 
@@ -167,10 +170,13 @@ p+p {
 }
 
 /* ---------- NAVBAR ---------- */
-.navbar {
+#navbar {
   position: sticky;
   top: 0;
   z-index: 1000;
+}
+
+.navbar {
   height: var(--nav-height);
   background: var(--clr-bg);
   border-bottom: 2px solid var(--clr-border);
@@ -411,19 +417,35 @@ p+p {
 }
 
 /* ---------- CARD CTA (large padding variant) ---------- */
-.card--cta {
+.card.card--cta {
   padding: var(--sp-3xl);
+  background: transparent;
+  border: none;
+  text-align: center;
 }
 
-.card--cta h2 {
+.card.card--cta h2 {
   font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: #FFFFFF;
 }
 
-.card--cta p {
-  color: var(--clr-secondary);
+.card.card--cta p {
+  color: rgba(255, 255, 255, 0.9);
   max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+.card.card--cta .btn--primary {
+  background: #FFFFFF;
+  color: var(--clr-primary);
+  border-color: #FFFFFF;
+}
+
+.card.card--cta .btn--primary:hover {
+  background: transparent;
+  color: #FFFFFF;
+}
 /* ---------- FORM PAGE HEADING ---------- */
 .form-heading {
   font-size: clamp(1.5rem, 3vw, 2rem);
@@ -487,6 +509,30 @@ p+p {
 
 .section--alt {
   background: var(--clr-bg-alt);
+}
+
+.section--primary {
+  background: var(--clr-primary);
+  color: #FFFFFF;
+}
+
+.section--primary h2,
+.section--primary .form-subtitle {
+  color: #FFFFFF;
+}
+
+.section--primary .accent-line {
+  background: #FFFFFF;
+}
+
+.section--primary .btn--secondary {
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+
+.section--primary .btn--secondary:hover {
+  background: #FFFFFF;
+  color: var(--clr-primary);
 }
 
 .section__header {
@@ -977,9 +1023,9 @@ function renderNavbar() {
 
   const links = [
     { label: 'Úvod',    href: 'index.html' },
-    { label: 'O nás',   href: 'o-nas.html' },
-    { label: 'Vstupy',  href: 'vstupy.html' },
-    { label: 'Fitko',   href: 'fitko.html' },
+    { label: 'O nás',   href: 'index.html#o-nas' },
+    { label: 'Vstupy',  href: 'index.html#vstupy' },
+    { label: 'Fitko',   href: 'index.html#fitko' },
     { label: 'Přihlásit', href: 'login.html' },
   ];
 
@@ -1058,9 +1104,9 @@ function renderFooter() {
         <div class="footer-col">
           <h4>Navigace</h4>
           <a href="index.html">Úvod</a>
-          <a href="o-nas.html">O nás</a>
-          <a href="vstupy.html">Vstupy</a>
-          <a href="fitko.html">Fitko</a>
+          <a href="index.html#o-nas">O nás</a>
+          <a href="index.html#vstupy">Vstupy</a>
+          <a href="index.html#fitko">Fitko</a>
         </div>
         <div class="footer-col">
           <h4>Kontakt</h4>
@@ -1232,54 +1278,8 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </section>
 
-    <section class="section">
-      <div class="container fade-in">
-        <div class="card card--cta">
-          <h2 class="mb-lg">Zastavte se to vyzkoušet.</h2>
-          <p class="mb-lg">
-            Účet u nás si vytvoříte za pár vteřin. Slouží k tomu, abyste měli přehled o svých vstupech a mohli si
-            rezervovat místo.
-          </p>
-          <a href="registrace.html" class="btn btn--primary">Vytvořit účet</a>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <!-- FOOTER -->
-  <div id="footer"></div>
-
-  <script src="components.js"></script>
-</body>
-
-</html>
-
-
-================================================================================
-  SOUBOR: o-nas.html
-================================================================================
-
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Poznejte příběh Fitka na Hegerce — malého fitness centra v Poličce, které vzniklo z vášně ke cvičení.">
-  <title>O nás — Fitko na Hegerce</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div id="navbar"></div>
-
-  <main>
-    <section class="hero">
-      <div class="container">
-        <h1 class="fade-in">O nás</h1>
-        <p class="fade-in">Jsme malé komunitní fitko, kde se všichni známe jménem.</p>
-      </div>
-    </section>
-
-    <section class="section section--alt">
+    <!-- SEKCE: O NÁS -->
+    <section class="section section--alt" id="o-nas">
       <div class="container">
         <div class="card-grid card-grid--2">
           <div class="card fade-in">
@@ -1313,7 +1313,7 @@ document.addEventListener('DOMContentLoaded', () => {
       </div>
     </section>
 
-    <section class="section">
+    <section class="section section--primary">
       <div class="container text-center fade-in">
         <h2>Kde nás najdete</h2>
         <div class="accent-line"></div>
@@ -1325,171 +1325,9 @@ document.addEventListener('DOMContentLoaded', () => {
         </a>
       </div>
     </section>
-  </main>
 
-  <div id="footer"></div>
-  <script src="components.js"></script>
-</body>
-</html>
-
-
-
-================================================================================
-  SOUBOR: vstupy.html
-================================================================================
-
-<!DOCTYPE html>
-<html lang="cs">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description"
-    content="Ceník vstupů do Fitka na Hegerce — jednorázové vstupy, 10-vstupové karty a měsíční permanentky.">
-  <title>Vstupy — Fitko na Hegerce</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-  <div id="navbar"></div>
-
-  <main>
-    <section class="hero">
-      <div class="container">
-        <h1 class="fade-in">Vstupy &amp; Ceník</h1>
-        <p class="fade-in">Vyberte si variantu, která vám vyhovuje. Žádné skryté poplatky, žádné závazky.</p>
-      </div>
-    </section>
-
-    <section class="section section--alt">
-      <div class="container">
-        <div class="pricing-grid fade-in">
-
-          <!-- Single entry -->
-          <div class="pricing-card">
-            <span class="price-label">Jednorázový vstup</span>
-            <div class="price">80 <span class="price-unit">Kč</span></div>
-            <p>Přijďte si zacvičit, kdykoli se vám hodí. Platí na jeden den.</p>
-            <a href="registrace.html" class="btn btn--secondary">Začít cvičit</a>
-          </div>
-
-          <!-- 10-pass -->
-          <div class="pricing-card featured">
-            <span class="price-label">10 vstupů</span>
-            <div class="price">650 <span class="price-unit">Kč</span></div>
-            <p>Ušetříte 150&nbsp;Kč oproti jednorázovým vstupům. Platnost 3&nbsp;měsíce.</p>
-            <a href="registrace.html" class="btn btn--primary">Nejlepší volba</a>
-          </div>
-
-          <!-- Monthly -->
-          <div class="pricing-card">
-            <span class="price-label">Měsíční permanentka</span>
-            <div class="price">900 <span class="price-unit">Kč</span></div>
-            <p>Neomezený počet vstupů po celý měsíc. Pro ty, co to myslí vážně.</p>
-            <a href="registrace.html" class="btn btn--secondary">Vybrat</a>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <div class="section__header fade-in">
-          <h2>Co je zahrnuto</h2>
-          <div class="accent-line"></div>
-        </div>
-        <div class="feature-list fade-in">
-          <div class="feature-item">
-            <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M4 4v5h16V4" />
-                <path d="M4 9l2 11h12l2-11" />
-                <line x1="8" y1="13" x2="8" y2="16" />
-                <line x1="12" y1="13" x2="12" y2="16" />
-                <line x1="16" y1="13" x2="16" y2="16" />
-              </svg></div>
-            <div>
-              <h4>Šatny &amp; sprchy</h4>
-              <p>Čisté šatny se zamykatelnými skříňkami a&nbsp;sprchami jsou samozřejmostí.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M6 5v14" />
-                <path d="M18 5v14" />
-                <path d="M6 12h12" />
-                <path d="M3 8h6" />
-                <path d="M3 16h6" />
-                <path d="M15 8h6" />
-                <path d="M15 16h6" />
-              </svg></div>
-            <div>
-              <h4>Veškeré vybavení</h4>
-              <p>Přístup ke všem strojům a&nbsp;volným vahám v&nbsp;ceně každého vstupu.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 18V5l12-2v13" />
-                <circle cx="6" cy="18" r="3" />
-                <circle cx="18" cy="16" r="3" />
-              </svg></div>
-            <div>
-              <h4>Hudba &amp; atmosféra</h4>
-              <p>Motivační hudba a&nbsp;příjemné prostředí pro váš trénink.</p>
-            </div>
-          </div>
-          <div class="feature-item">
-            <div class="feature-icon"><svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24"
-                fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="3" />
-                <path d="M9 17V7h4a3 3 0 0 1 0 6H9" />
-              </svg></div>
-            <div>
-              <h4>Parkování</h4>
-              <p>Bezplatné parkování přímo u&nbsp;budovy.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <div id="footer"></div>
-  <script src="components.js"></script>
-</body>
-
-</html>
-
-
-================================================================================
-  SOUBOR: fitko.html
-================================================================================
-
-<!DOCTYPE html>
-<html lang="cs">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Prohlédněte si prostory Fitka na Hegerce — šatny, posilovací stroje a budovu zvenku.">
-  <title>Fitko — Fitko na Hegerce</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div id="navbar"></div>
-
-  <main>
-    <section class="hero">
-      <div class="container">
-        <h1 class="fade-in">Naše fitko</h1>
-        <p class="fade-in">Podívejte se, jak to u nás vypadá. Kompaktní, čisté a plně vybavené.</p>
-      </div>
-    </section>
-
-    <section class="section section--alt">
+    <!-- SEKCE: FITKO -->
+    <section class="section section--alt" id="fitko">
       <div class="container">
         <div class="section__header fade-in">
           <h2>Galerie</h2>
@@ -1536,13 +1374,65 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
       </div>
     </section>
+
+    <!-- SEKCE: VSTUPY & CENÍK -->
+    <section class="section section--alt" id="vstupy">
+      <div class="container">
+        <div class="section__header fade-in">
+          <h2>Vstupy &amp; Ceník</h2>
+          <div class="accent-line"></div>
+        </div>
+        <div class="pricing-grid fade-in">
+          <!-- Single entry -->
+          <div class="pricing-card">
+            <span class="price-label">Jednorázový vstup</span>
+            <div class="price">80 <span class="price-unit">Kč</span></div>
+            <p>Přijďte si zacvičit, kdykoli se vám hodí. Platí na jeden den.</p>
+            <a href="registrace.html" class="btn btn--secondary">Začít cvičit</a>
+          </div>
+
+          <!-- 10-pass -->
+          <div class="pricing-card featured">
+            <span class="price-label">10 vstupů</span>
+            <div class="price">650 <span class="price-unit">Kč</span></div>
+            <p>Ušetříte 150&nbsp;Kč oproti jednorázovým vstupům. Platnost 3&nbsp;měsíce.</p>
+            <a href="registrace.html" class="btn btn--primary">Nejlepší volba</a>
+          </div>
+
+          <!-- Monthly -->
+          <div class="pricing-card">
+            <span class="price-label">Měsíční permanentka</span>
+            <div class="price">900 <span class="price-unit">Kč</span></div>
+            <p>Neomezený počet vstupů po celý měsíc. Pro ty, co to myslí vážně.</p>
+            <a href="registrace.html" class="btn btn--secondary">Vybrat</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <section class="section section--primary">
+      <div class="container fade-in">
+        <div class="card card--cta">
+          <h2 class="mb-lg">Zastavte se to vyzkoušet.</h2>
+          <p class="mb-lg">
+            Účet u nás si vytvoříte za pár vteřin. Slouží k tomu, abyste měli přehled o svých vstupech a mohli si
+            rezervovat místo.
+          </p>
+          <a href="registrace.html" class="btn btn--primary">Vytvořit účet</a>
+        </div>
+      </div>
+    </section>
   </main>
 
+  <!-- FOOTER -->
   <div id="footer"></div>
+
   <script src="components.js"></script>
 </body>
-</html>
 
+</html>
 
 
 ================================================================================

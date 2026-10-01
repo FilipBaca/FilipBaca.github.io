@@ -153,10 +153,13 @@ p+p {
 }
 
 /* ---------- NAVBAR ---------- */
-.navbar {
+#navbar {
   position: sticky;
   top: 0;
   z-index: 1000;
+}
+
+.navbar {
   height: var(--nav-height);
   background: var(--clr-bg);
   border-bottom: 2px solid var(--clr-border);
@@ -397,19 +400,35 @@ p+p {
 }
 
 /* ---------- CARD CTA (large padding variant) ---------- */
-.card--cta {
+.card.card--cta {
   padding: var(--sp-3xl);
+  background: transparent;
+  border: none;
+  text-align: center;
 }
 
-.card--cta h2 {
+.card.card--cta h2 {
   font-size: clamp(1.75rem, 4vw, 2.5rem);
+  color: #FFFFFF;
 }
 
-.card--cta p {
-  color: var(--clr-secondary);
+.card.card--cta p {
+  color: rgba(255, 255, 255, 0.9);
   max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
+.card.card--cta .btn--primary {
+  background: #FFFFFF;
+  color: var(--clr-primary);
+  border-color: #FFFFFF;
+}
+
+.card.card--cta .btn--primary:hover {
+  background: transparent;
+  color: #FFFFFF;
+}
 /* ---------- FORM PAGE HEADING ---------- */
 .form-heading {
   font-size: clamp(1.5rem, 3vw, 2rem);
@@ -473,6 +492,30 @@ p+p {
 
 .section--alt {
   background: var(--clr-bg-alt);
+}
+
+.section--primary {
+  background: var(--clr-primary);
+  color: #FFFFFF;
+}
+
+.section--primary h2,
+.section--primary .form-subtitle {
+  color: #FFFFFF;
+}
+
+.section--primary .accent-line {
+  background: #FFFFFF;
+}
+
+.section--primary .btn--secondary {
+  border-color: #FFFFFF;
+  color: #FFFFFF;
+}
+
+.section--primary .btn--secondary:hover {
+  background: #FFFFFF;
+  color: var(--clr-primary);
 }
 
 .section__header {
