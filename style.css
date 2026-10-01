@@ -401,10 +401,16 @@ p+p {
 
 /* ---------- CARD CTA (large padding variant) ---------- */
 .card.card--cta {
-  padding: var(--sp-3xl);
+  padding: var(--sp-xl) 0;
   background: transparent;
   border: none;
   text-align: center;
+}
+
+@media (min-width: 768px) {
+  .card.card--cta {
+    padding: var(--sp-3xl) 0;
+  }
 }
 
 .card.card--cta h2 {
@@ -425,9 +431,11 @@ p+p {
   border-color: #FFFFFF;
 }
 
-.card.card--cta .btn--primary:hover {
-  background: transparent;
-  color: #FFFFFF;
+@media (hover: hover) {
+  .card.card--cta .btn--primary:hover {
+    background: transparent;
+    color: #FFFFFF;
+  }
 }
 /* ---------- FORM PAGE HEADING ---------- */
 .form-heading {
