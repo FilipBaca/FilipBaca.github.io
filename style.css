@@ -289,6 +289,7 @@ p+p {
     transform: translateX(100%);
     transition: transform var(--duration) var(--ease);
     gap: var(--sp-xs);
+    z-index: 1000;
   }
 
   .nav-links.open {
