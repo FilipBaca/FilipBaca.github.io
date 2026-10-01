@@ -70,28 +70,44 @@ function renderNavbar() {
     hamburger.classList.toggle('open');
     overlay.classList.toggle('open');
     hamburger.setAttribute('aria-expanded', isOpen);
-    document.body.style.overflow = isOpen ? 'hidden' : '';
   }
 
   hamburger.addEventListener('click', toggleMenu);
   overlay.addEventListener('click', toggleMenu);
 
-  // Close menu on link click (mobile) and handle smooth scroll
+  // ZAVŘENÍ MENU PO KLIKNUTÍ NA ODKAZ A JEMNÉ ODSKROLOVÁNÍ
   navLinks.querySelectorAll('a').forEach(a => {
     a.addEventListener('click', (e) => {
+      // 1. Zavřít menu, pokud je otevřené na mobilu
       if (navLinks.classList.contains('open')) {
         toggleMenu();
       }
-
-      // Smooth scroll for hash links on the same page
+      
+      // 2. Jemné odskrolování pro kotvy (oprava skoku pod fixní navbar)
       const href = a.getAttribute('href');
-      if (href && href.startsWith('#') && href !== '#') {
-        e.preventDefault();
-        const targetElement = document.querySelector(href);
+      // Zkontrolujeme, zda odkaz obsahuje hash (#) a nevede jen na jinou stránku
+      if (href && href.includes('#')) {
+        const targetId = href.split('#')[1];
+        if (!targetId) return; // Pokud je to jen '#', nic neděláme
+        
+        const targetElement = document.getElementById(targetId);
+        
         if (targetElement) {
-          setTimeout(() => {
-            targetElement.scrollIntoView({ behavior: 'smooth' });
-          }, 100); // Wait for overflow: hidden to be removed
+          e.preventDefault(); // Zabráníme defaultnímu tvrdému skoku
+          
+          // Získáme výšku navbaru, abychom o ni posunuli odskrolování
+          const navbar = document.querySelector('.navbar');
+          const navbarHeight = navbar ? navbar.offsetHeight : 0;
+          
+          // Spočítáme finální pozici
+          const elementPosition = targetElement.getBoundingClientRect().top + window.scrollY;
+          const offsetPosition = elementPosition - navbarHeight;
+          
+          // Plynulý posun
+          window.scrollTo({
+            top: offsetPosition,
+            behavior: "smooth"
+          });
         }
       }
     });
